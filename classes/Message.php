@@ -12,5 +12,33 @@
  * @author guilloud
  */
 class Message {
-    //put your code here
+    protected $content;
+    protected $date;
+    protected $author;
+    
+    function __construct($content) {
+        $this->content = $content;
+        $this->date = new DateTime;
+    }
+    
+    function getContent() {
+        return $this->content;
+    }
+
+    function getDate() {
+        return $this->date;
+    }
+
+    function setContent($content) {
+        $this->content = $content;
+    }
+
+    function setDate($date) {
+        $this->date = $date;
+    }
+
+
+    function asHtml(){
+        return $this->content .$this->date->format('d/m/y à H:i');
+    }
 }

@@ -1,11 +1,12 @@
 <?php
-$messages = [];
+include_once 'classes/Message.php';
 
 if (isset($_POST['message'])){
 $text = $_POST['message'];
-$messages[] = $text;
-foreach($messages as $message)
-echo json_encode($messages);
+
+$message = new Message($text);
+echo $message->asHtml();
+
 
 //echo 'yo! '. $text;
 } else {

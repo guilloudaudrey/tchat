@@ -1,56 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="script.js"></script>
-    <title>Document</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="script.js"></script>
+        <title>Document</title>
+    </head>
 
-<body class="container">
-    <h1 class="text-center">Chat</h1>
-    <div class="justify-content-md-center">
-        <div id="tchat" class=" row col-md-8 col-md-offset-2" style="height: 300px; background: lightgrey; margin-top: 20px;"></div>
+    <body class="container">
+        <h1 class="text-center">Chat</h1>
+        <div class="justify-content-md-center">
+            <div id="tchat" class=" row col-md-8 col-md-offset-2" style="height: 300px; background: lightgrey; margin-top: 20px;"></div>
 
-        <form method="GET" action="new-message.php">
+            <form method="GET" action="new-message.php">
 
-            <div class="row"><textarea class=" col-md-6 col-md-offset-3 " id="message" style="margin-top: 20px;" name="message"></textarea></div>
-            <div class="row"><input type=" submit " class="btn btn-primary col-md-2  col-md-offset-5" value="envoyer " style="margin-top: 20px;" id="form" /></div>
-        </form>
-</body>
+                <div class="row"><textarea class=" col-md-6 col-md-offset-3 " id="message" style="margin-top: 20px;" name="message"></textarea></div>
+                <div class="row"><input type=" submit " class="btn btn-primary col-md-2  col-md-offset-5" value="envoyer " style="margin-top: 20px;" id="form"/></div>
+            </form>
 
-<script>
-    document.querySelector("#form")
-        .addEventListener('click', function(e) {
-            e.preventDefault();
-            let txt = document.querySelector("#message").value;
-            //  console.log(txt);
+            <script>
+                let liste = [];
+           
+                let div = document.querySelector('#tchat');
 
 
+                function ajout(element) {
+                    liste.push(element);
+                         console.log(liste);
+                }
 
-            let xhr = new XMLHttpRequest;
-            xhr.open('POST', 'new-message.php');
-            xhr.onreadystatechange = function() {
-                if (this.readyState === XMLHttpRequest.DONE) {
-                    if (this.status === 200) {
-                        console.log('ok');
-                        console.log(this.response);
-
-                        let div = document.querySelector('#tchat');
-                        div.innerHTML = this.response;
-                    } else {
-                        console.error('unexpected status code : ', this.status);
-                        console.error(xhr.response);
+                function displayMessages() {
+                    div.innerHTML = "";
+                    for (let i = 0; i < liste.length; i++) {
+                        console.log(liste[i]);
+                        let p = document.createElement('p');
+                        p.innerHTML = liste[i];
+                        div.appendChild(p);                      
                     }
                 }
 
-            }
-            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-            xhr.send('message=' + txt);
-        });
-</script>
 
+                document.querySelector("#form")
+                        .addEventListener('click', function (e) {
+                            e.preventDefault();
+                            let txt = document.querySelector("#message").value;
+                            //  console.log(txt);
+
+
+
+                            let xhr = new XMLHttpRequest;
+                            xhr.open('POST', 'new-message.php');
+                            xhr.onreadystatechange = function () {
+                                if (this.readyState === XMLHttpRequest.DONE) {
+                                    if (this.status === 200) {
+                                        //console.log('ok');
+                                       // console.log(this.response);
+                                        ajout(this.response);
+                                        displayMessages();
+                                    } else {
+                                        //console.error('unexpected status code : ', this.status);
+                                        //console.error(xhr.response);
+                                    }
+                                }
+
+                            };
+                            xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+                            xhr.send('message=' + txt);
+                        }
+                        );
+
+            </script>
+    </body>
 </html>
