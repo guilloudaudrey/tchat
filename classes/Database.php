@@ -40,27 +40,22 @@ class Database {
         }
         return FALSE;
     }
-    
+
     //parcourir les posts
-    public function readPostsList(): Array {
+    public function readMessagesList(): Array {
 
-        $stmt = $this->pdo->query('SELECT * FROM post INNER JOIN user ON post.author = user.id');
-        $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $postslist = [];
-        foreach ($posts as $post) {
-            $title = $post['title'];
-            $categorie = $post['categorie'];
-            $date = $post['date'];
-            $description = $post['description'];
-            $localisation = $post['localisation'];
-            $price = $post['price'];
-            $typeannonce = $post['typeannonce'];
-            $author = $post['pseudo'];
-            $id = $post['id'];
-
-            $newpost = new Post($title, $description, $price, $author, $categorie, $localisation, $typeannonce, $id);
-            $postslist[] = $newpost;
-        }
-        return $postslist;
+        $stmt = $this->pdo->query('SELECT * FROM message');
+        $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return json_encode($messages);
+        //$messageslist = [];
+        //foreach ($messages as $message) {
+        //$id = $message['id'];
+        //$date = $message['date'];
+        //  $text = $post['text'];
+        //$newmessage = new Post($text);
+        //$messageslist[] = $newmessage;
+        //}
+        //return $newmessage;
     }
+
 }
