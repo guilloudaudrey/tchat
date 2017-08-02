@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -57,4 +57,6 @@ class Message {
         function asHtml(){
         return '<p>'.$this->content .'</p><p>'.$this->date->format('d/m/y à H:i').'</p>';
     }
+    
+    //function JSONserialize
 }

@@ -42,11 +42,19 @@ class Database {
     }
 
     //parcourir les posts
-    public function readMessagesList(): Array {
+    public function readMessagesList() {
 
-        $stmt = $this->pdo->query('SELECT * FROM message');
+        $stmt = $this->pdo->prepare('SELECT * FROM message');
+        $stmt->execute();
+        $liste = [];
         $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return json_encode($messages);
+        //return json_encode($messages);
+        foreach ($messages as $message) {
+            $text = $message ['text'];
+            $newmessage = new Message($text);
+            $liste[] = $newmessage;  
+        }
+        return $liste;
         //$messageslist = [];
         //foreach ($messages as $message) {
         //$id = $message['id'];
@@ -56,6 +64,18 @@ class Database {
         //$messageslist[] = $newmessage;
         //}
         //return $newmessage;
+        
+        // cyrille
+       //    public function readPost() : array {
+        //$stmt = $this->pdo->query('SELECT * FROM posts');
+        //$posts = [];
+        //while ($ligne = $stmt->fetch()) {
+        //    $post = new Post($ligne['contenu'], $ligne['date'], $ligne['id']);
+        //    $posts[] = $post;
+        //}
+        //return $posts;
     }
-
 }
+    
+
+

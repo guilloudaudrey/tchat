@@ -16,25 +16,28 @@
     </head>
 
     <body class="container">
+    
+
         <h1 class="text-center">Chat</h1>
         <div class="justify-content-md-center">
-            <div id="tchat" class=" row col-md-8 col-md-offset-2" style="height: 400px; background: lightgrey; margin-top: 20px;"></div>
+            <div id="tchat" class="row col-md-8 col-md-offset-2" style="height: 400px; background: lightgrey; margin-top: 20px;"></div>
 
             <form method="GET" action="new-message.php">
 
-                <div class="row"><textarea class=" col-md-6 col-md-offset-3 " id="message" style="margin-top: 20px;" name="message"></textarea></div>
-                <div class="row"><input type=" submit " class="btn btn-primary col-md-2  col-md-offset-5" value="envoyer " style="margin-top: 20px;" id="form"/></div>
+                <div class="row"><textarea class="col-md-6 col-md-offset-3" id="message" style="margin-top: 20px;" name="message"></textarea></div>
+                <div class="row"><input type="submit" class="btn btn-primary col-md-2  col-md-offset-5" value="envoyer" style="margin-top: 20px;" id="form"/></div>
             </form>
 
             <script>
                 let liste = [];
-           
+
+
                 let div = document.querySelector('#tchat');
 
 
                 function ajout(element) {
                     liste.push(element);
-                         console.log(liste);
+                    console.log(liste);
                 }
 
                 function displayMessages() {
@@ -43,9 +46,38 @@
                         console.log(liste[i]);
                         let p = document.createElement('p');
                         p.innerHTML += liste[i];
-                        div.appendChild(p);                      
+                        div.appendChild(p);
                     }
                 }
+
+//                function update() {
+//                    let xhr = new XMLHttpRequest;
+//                    xhr.open('GET', 'read-messages.php');
+//                    xhr.onreadystatechange = function () {
+//                        if (this.readyState === XMLHttpRequest.DONE) {
+//                            if (this.status === 200) {
+//                                console.log('ok'); 
+//                            
+//               // title: title,
+//               // content: content
+//           // });
+//                             
+//                              console.log(this.response);
+//
+//                            } else {
+//                                console.error('unexpected status code : ', this.status);
+//                                console.error(xhr.response);
+//                            }
+//                        }
+//
+//                    };
+//                   // xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+//                    xhr.send('NULL');
+//
+//
+//                }
+//
+//                setInterval(update, 500);
 
 
                 document.querySelector("#form")
@@ -62,7 +94,7 @@
                                 if (this.readyState === XMLHttpRequest.DONE) {
                                     if (this.status === 200) {
                                         //console.log('ok');
-                                       // console.log(this.response);
+                                        // console.log(this.response);
                                         ajout(this.response);
                                         displayMessages();
                                     } else {
@@ -77,6 +109,24 @@
                         }
                         );
 
+                setInterval(function () {
+                    let xhr2 = new XMLHttpRequest();
+                    xhr2.open('GET', 'read-messages.php', true);
+                    xhr2.onreadystatechange = function () {
+                        if (xhr2.readyState === XMLHttpRequest.DONE) {
+                            if (xhr2.status === 200) {
+                                liste = JSON.parse(xhr2.response);
+                                console.log(xhr2.response);
+                                //display();
+                            } else {
+                                console.error('unexpected status code:', this.status);
+                            }
+                        }
+                    };
+                    
+                    xhr2.send(null);
+                }, 500);
+
             </script>
-    </body>
+    </body
 </html>
