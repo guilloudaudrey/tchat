@@ -47,33 +47,16 @@ class Database {
         $stmt = $this->pdo->prepare('SELECT * FROM message');
         $stmt->execute();
         $liste = [];
-        $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        while ($message = $stmt->fetch()){
+        //$messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
         //return json_encode($messages);
-        foreach ($messages as $message) {
+        //foreach ($messages as $message) {
             $text = $message ['text'];
             $newmessage = new Message($text);
             $liste[] = $newmessage;  
         }
         return $liste;
-        //$messageslist = [];
-        //foreach ($messages as $message) {
-        //$id = $message['id'];
-        //$date = $message['date'];
-        //  $text = $post['text'];
-        //$newmessage = new Post($text);
-        //$messageslist[] = $newmessage;
-        //}
-        //return $newmessage;
-        
-        // cyrille
-       //    public function readPost() : array {
-        //$stmt = $this->pdo->query('SELECT * FROM posts');
-        //$posts = [];
-        //while ($ligne = $stmt->fetch()) {
-        //    $post = new Post($ligne['contenu'], $ligne['date'], $ligne['id']);
-        //    $posts[] = $post;
-        //}
-        //return $posts;
+
     }
 }
     

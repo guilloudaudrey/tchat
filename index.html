@@ -110,21 +110,21 @@
                         );
 
                 setInterval(function () {
-                    let xhr2 = new XMLHttpRequest();
-                    xhr2.open('GET', 'read-messages.php', true);
-                    xhr2.onreadystatechange = function () {
-                        if (xhr2.readyState === XMLHttpRequest.DONE) {
-                            if (xhr2.status === 200) {
-                                liste = JSON.parse(xhr2.response);
-                                console.log(xhr2.response);
-                                //display();
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('GET', 'read-messages.php', true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 200) {
+                                JSON.parse(xhr.response);
+                                
+                                displayMessages();
                             } else {
                                 console.error('unexpected status code:', this.status);
                             }
                         }
                     };
                     
-                    xhr2.send(null);
+                    xhr.send(null);
                 }, 500);
 
             </script>
