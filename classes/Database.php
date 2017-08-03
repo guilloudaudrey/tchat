@@ -11,6 +11,8 @@
  *
  * @author guilloud
  */
+include_once 'classes/Message.php';
+
 class Database {
 
     private $pdo;
@@ -48,9 +50,6 @@ class Database {
         $stmt->execute();
         $liste = [];
         while ($message = $stmt->fetch()){
-        //$messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        //return json_encode($messages);
-        //foreach ($messages as $message) {
             $text = $message ['text'];
             $newmessage = new Message($text);
             $liste[] = $newmessage;  

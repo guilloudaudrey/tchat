@@ -11,7 +11,7 @@
  *
  * @author guilloud
  */
-class Message {
+class Message implements \JsonSerializable {
     protected $id;
     protected $content;
     protected $date;
@@ -58,5 +58,9 @@ class Message {
         return '<p>'.$this->content .'</p><p>'.$this->date->format('d/m/y à H:i').'</p>';
     }
     
+     public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
     //function JSONserialize
 }

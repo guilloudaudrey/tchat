@@ -16,7 +16,7 @@
     </head>
 
     <body class="container">
-    
+
 
         <h1 class="text-center">Chat</h1>
         <div class="justify-content-md-center">
@@ -37,47 +37,20 @@
 
                 function ajout(element) {
                     liste.push(element);
-                    console.log(liste);
+                    //console.log(liste);
                 }
 
                 function displayMessages() {
                     div.innerHTML = "";
                     for (let i = 0; i < liste.length; i++) {
-                        console.log(liste[i]);
+                        //console.log(liste[i]);
                         let p = document.createElement('p');
                         p.innerHTML += liste[i];
                         div.appendChild(p);
                     }
                 }
 
-//                function update() {
-//                    let xhr = new XMLHttpRequest;
-//                    xhr.open('GET', 'read-messages.php');
-//                    xhr.onreadystatechange = function () {
-//                        if (this.readyState === XMLHttpRequest.DONE) {
-//                            if (this.status === 200) {
-//                                console.log('ok'); 
-//                            
-//               // title: title,
-//               // content: content
-//           // });
-//                             
-//                              console.log(this.response);
 //
-//                            } else {
-//                                console.error('unexpected status code : ', this.status);
-//                                console.error(xhr.response);
-//                            }
-//                        }
-//
-//                    };
-//                   // xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-//                    xhr.send('NULL');
-//
-//
-//                }
-//
-//                setInterval(update, 500);
 
 
                 document.querySelector("#form")
@@ -115,17 +88,25 @@
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {
-                                JSON.parse(xhr.response);
-                                
-                                displayMessages();
+                                let messages = JSON.parse(xhr.response);
+                                 liste = [];
+                                for (let message of messages){
+                              
+                                    console.log(message.content);
+                                      //liste += message.content;
+                                       ajout(message.content);
+                                         displayMessages();
+                                }
+                              
                             } else {
                                 console.error('unexpected status code:', this.status);
                             }
                         }
                     };
-                    
+
                     xhr.send(null);
                 }, 500);
+
 
             </script>
     </body
