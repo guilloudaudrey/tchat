@@ -8,11 +8,11 @@ $db = new Database();
 if (isset($_POST['message'])){
 $text = $_POST['message'];
 
-$message = new Message($text);
+$date = date("Y-m-d H:i:s");
+$message = new Message($text, $date);
 $db->createMessage($message);
 echo $message->asHtml();
 
-//echo 'yo! '. $text;
 } else {
     //pour renvoyer code http
     http_response_code(400);

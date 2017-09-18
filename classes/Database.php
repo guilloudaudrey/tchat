@@ -26,14 +26,16 @@ class Database {
             exit(1);
         }
     }
-
+    
+    //créer de nouveaux messages dans la database 
+    
     public function createMessage(Message $message) {
-        $date = $message->getDate()->format('Y-m-d H:i:s');
+        $date = $message->getDate();
         $text = $message->getContent();
 
         $stmt = $this->pdo->prepare('INSERT INTO message(date, text) VALUES(:date, :text);');
-        $stmt->bindValue('date', $date);
-        $stmt->bindValue('text', $text);
+        $stmt->bindValue('date', $date, PDO::PARAM_STR);
+        $stmt->bindValue('text', $text, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
 
@@ -42,8 +44,14 @@ class Database {
         }
         return FALSE;
     }
-
+    
+    //créer de nouveaux utilisateurs dans la base de données 
+    public function createUser(User $user){
+        
+    }
+     
     //parcourir les posts
+    
     public function readMessagesList() {
 
         $stmt = $this->pdo->prepare('SELECT * FROM message');
@@ -51,7 +59,10 @@ class Database {
         $liste = [];
         while ($message = $stmt->fetch()){
             $text = $message ['text'];
-            $newmessage = new Message($text);
+            $date = $message['date'];
+            $id = $message['id'];
+            $newmessage = new Message($text, $date, $id);
+      
             $liste[] = $newmessage;  
         }
         return $liste;

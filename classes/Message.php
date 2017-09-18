@@ -5,7 +5,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  * Description of Message
  *
@@ -17,9 +16,10 @@ class Message implements \JsonSerializable {
     protected $date;
     protected $author;
     
-    function __construct($content) {
+    function __construct($content, $date, $id=NULL) {
         $this->content = $content;
-        $this->date = new DateTime();
+        $this->date = $date;
+        $this->id = $id;
     }
     
     function getContent() {
@@ -55,12 +55,11 @@ class Message implements \JsonSerializable {
     }
 
         function asHtml(){
-        return '<p>'.$this->content .'</p><p>'.$this->date->format('d/m/y à H:i').'</p>';
+        return '<p>'.$this->content .'</p><p>'.$this->date.'</p>';
     }
     
      public function jsonSerialize()
     {
         return get_object_vars($this);
     }
-    //function JSONserialize
 }
