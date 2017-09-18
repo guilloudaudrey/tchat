@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/style.css">
         <script src="script.js"></script>
-        <title>Document</title>
+        <title>Chat</title>
         <style>
             #tchat {
                 overflow-x: scroll;
@@ -19,14 +19,30 @@
 
     <body>
         <nav class="navbar navbar-default">
-            <form>
-                <label for="pseudo">Pseudo</label>
-                <input type="text" />
-                <label for="mdp">Mdp</label>
-                <input type="password" />
-                <input type="submit" value="valider" />
-            </form>
-            <p><a href="#?w=500" rel="popup_name" data-toggle="modal" data-target="#myModal">Se connecter</a></p>
+            <div class='container' style="padding-bottom:10px">
+
+                <form>
+
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <label for="pseudo">Pseudo</label>
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <label for="mdp" >Mdp</label>
+                            <input type="password" class="form-control"/>
+                        </div>
+                    </div>
+                    <div >
+                        <input type="submit" value="valider" class='btn btn info' />
+                        <button class=' btn btn-primary'>S'inscrire</button>
+                    </div>
+                </form>
+
+
+            </div>
         </nav>
         <div class="container">
             <h1 class="text-center">Chat</h1>
@@ -57,9 +73,8 @@
                 div.innerHTML = "";
 
                 for (let l of liste) {
-                   
+
                     let p = document.createElement('p');
-                 
                     p.innerHTML = l.date + ' -> ' + l.content;
                     div.appendChild(p);
                 }
@@ -69,15 +84,14 @@
                     .addEventListener('click', function (e) {
                         e.preventDefault();
                         let txt = document.querySelector("#message").value;
-                        //  console.log(txt);
                         let xhr = new XMLHttpRequest;
                         xhr.open('POST', 'new-message.php');
                         xhr.onreadystatechange = function () {
                             if (this.readyState === XMLHttpRequest.DONE) {
                                 if (this.status === 200) {
                                     console.log('ok');
-                                    //console.log(this.response);
-                                    ajout(this.response);                              
+                                    ajout(this.response);
+                                    liste = JSON.parse(xhr.response);
                                     displayMessages();
                                 } else {
                                     console.error('unexpected status code : ', this.status);
@@ -88,6 +102,8 @@
                         xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
                         xhr.send('message=' + txt);
                     });
+                    
+                    
 
             setInterval(function () {
                 let xhr = new XMLHttpRequest();
@@ -95,9 +111,9 @@
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
-                            liste = JSON.parse(xhr.response);                              
-                                displayMessages();
-                            
+                            liste = JSON.parse(xhr.response);
+                            displayMessages();
+
                         } else {
                             console.error('unexpected status code:', this.status);
                         }
